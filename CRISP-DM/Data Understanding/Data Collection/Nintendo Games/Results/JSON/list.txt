@@ -1,0 +1,23 @@
+ Volume in drive S is SNAFU
+ Volume Serial Number is 64CB-8771
+
+ Directory of S:\Layak\Data Science\66DaysOfData\CRISP-DM\Data Understanding\Data Collection\Nintendo Games\Results\JSON
+
+04-01-2021  13:04    <DIR>          .
+04-01-2021  13:04    <DIR>          ..
+04-01-2021  03:20                 2 dict_var.json
+04-01-2021  04:45            94,342 game_attr.json
+04-01-2021  04:45            45,900 game_classes.json
+04-01-2021  04:45            52,354 game_dev.json
+04-01-2021  04:45            66,115 game_geners.json
+04-01-2021  04:45            65,951 game_platforms.json
+04-01-2021  04:45            46,546 game_publs.json
+04-01-2021  04:45           196,307 game_ratings.json
+04-01-2021  04:45           295,196 game_rdates.json
+04-01-2021  04:45            40,761 game_sales.json
+04-01-2021  04:45            39,452 game_size.json
+03-01-2021  21:58            70,428 game_url.json
+03-01-2021  21:58            42,626 game_year.json
+04-01-2021  13:04                 0 list.txt
+              14 File(s)      1,055,980 bytes
+               2 Dir(s)  247,823,548,416 bytes free
