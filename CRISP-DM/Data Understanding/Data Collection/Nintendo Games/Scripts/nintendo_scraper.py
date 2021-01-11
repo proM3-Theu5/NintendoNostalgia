@@ -12,18 +12,38 @@ import numpy as np
 import json
 import os
 
-global_log_level = 'DEBUG'
+global_log_level = ['DEBUG','TIME','ROOT']
 file_path = "..\..\..\..\..\Logs\\"
 filename = log.get_filename()
 
+def print_curr_time():
+    time_val = get_curr_time()
+    print(str(time_val)[:-4])
+
+def get_curr_time():
+    return datetime.datetime.now()
+
 def get_html_content(URL):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting HTML Content',file_path,filename)
     log.log_generate('ALL',global_log_level,'URL :'+str(URL),file_path,filename)
     web_page = requests.get(URL)
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return web_page
 
 def page_details(web_page):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting HHTP Page Request Details',file_path,filename)
     print('URL : '+web_page.url)
@@ -31,22 +51,51 @@ def page_details(web_page):
     log.log_generate('DEBUG',global_log_level,"Status Code : "+str(web_page.status_code),file_path,filename)
     print("Encoding : "+web_page.encoding)
     log.log_generate('DEBUG',global_log_level,"Encoding : "+web_page.encoding,file_path,filename)
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
     
 
 def page_soup(web_page):
 
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
+
     log.log_generate('ALL',global_log_level,'Getting WebPage Soup',file_path,filename)
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return BeautifulSoup(web_page.content, 'html.parser')
 
 # Function to find all occurences of hyphen in text
 def all_occurences(text,char):
 
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
+
     log.log_generate('ALL',global_log_level,'Fetching all occurrences of "'+char+'" in '+text,file_path,filename)
     occur = [i for i,char_s in enumerate(text) if char == char_s ]
     log.log_generate('DEBUG',global_log_level,'Occurences found : "'+str(occur),file_path,filename)
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return occur
 
 def get_game_NameYearURL(game_uls):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
     
     log.log_generate('ALL',global_log_level,'Getting Game Name, Year and URL',file_path,filename)
     # Generating details for all games
@@ -80,10 +129,19 @@ def get_game_NameYearURL(game_uls):
                 game_year[name] = np.NaN
             log.log_generate('DEBUG',global_log_level,'game_url : '+str(game_url[name]),file_path,filename)
             log.log_generate('DEBUG',global_log_level,'game_year : '+str(game_year[name]),file_path,filename)
-                
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return game_year,game_url            
     
 def get_attribute_list(game_infobox):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting attribute list for the game',file_path,filename)
     
@@ -94,25 +152,55 @@ def get_attribute_list(game_infobox):
         attr_list = []
         print('No Attributes')
     print(attr_list)
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return attr_list
 
 
 def get_infobox(game_soup):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
+
     log.log_generate('ALL',global_log_level,'Getting infobox for the game',file_path,filename)
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return game_soup.find('aside',{'class' : re.compile(r'^portable-infobox')})
 
 def get_devs(game_infobox):
     
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
+
     log.log_generate('ALL',global_log_level,'Getting Developers for the game',file_path,filename)
     try:
         dev_dets = game_infobox.find('div',{'data-source':'developer'})
         dev = dev_dets.find('a').get_attribute_list('title')[0]
     except:
         dev = np.NaN
-        
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return dev
 
 def get_publishers(game_infobox):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting publishers for the game',file_path,filename)
     try:
@@ -120,10 +208,19 @@ def get_publishers(game_infobox):
         publ = publ_dets.find('a').get_attribute_list('title')[0]
     except:
         publ = np.NaN
-        
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return publ
 
 def get_sales(game_infobox):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting sales for the game',file_path,filename)
     
@@ -132,10 +229,19 @@ def get_sales(game_infobox):
         sales_val = sales_dets.find('div').text
     except:
         sales_val = np.NaN
-    
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return sales_val
 
 def get_size(game_infobox):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting size for the game',file_path,filename)
     
@@ -144,11 +250,20 @@ def get_size(game_infobox):
         size_val = size_dets.find('div').text
     except:
         size_val = np.NaN
-        
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return size_val
 
 def get_platforms(game_infobox):
     
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
+
     log.log_generate('ALL',global_log_level,'Getting platforms for the game',file_path,filename)
     
     try:
@@ -157,10 +272,19 @@ def get_platforms(game_infobox):
         platforms = [a.get_attribute_list('title')[0] for a in platform_sub_secs]
     except:
         platforms = np.NaN
-        
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return platforms
 
 def get_classifications(game_infobox):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting classifications for the game',file_path,filename)
     
@@ -170,11 +294,20 @@ def get_classifications(game_infobox):
         class_vals = [a.get_attribute_list('title')[0] for a in class_subs]
     except:
         class_vals = np.NaN
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)        
         
     return class_vals
 
 def ger_genres(game_infobox):
     
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
+
     log.log_generate('ALL',global_log_level,'Getting genres for the game',file_path,filename)
 
     try:
@@ -182,10 +315,19 @@ def ger_genres(game_infobox):
         genre_l = [gen_val.find(text = True,recursive = False) for gen_val in genre_div.find_all()]
     except:
         genre_l = np.NaN
-    
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return genre_l
 
 def get_sections(game_infobox):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting sections for the game',file_path,filename)
     
@@ -201,10 +343,19 @@ def get_sections(game_infobox):
         ratings_sec = sections[1]
     except:
         ratings_sec = np.NaN
-    
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return release_date_sec,ratings_sec
 
 def get_release_dates(release_date_sec):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting release dates for the game',file_path,filename)
     
@@ -221,10 +372,19 @@ def get_release_dates(release_date_sec):
             date_val = sec_date.text
             temp_dict[loc] = date_val
         sub_sec_dates[sec_header] = temp_dict
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)        
     
     return sub_sec_dates
 
 def get_ratings(ratings_sec):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting classifications for the game',file_path,filename)
     
@@ -238,10 +398,19 @@ def get_ratings(ratings_sec):
         rate_img_val = rate_src.find('img').get_attribute_list('data-image-name')[0]
         rate_text_dict[source] = rate_txt
         rate_img_dict[source] = rate_img_val
-    
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return rate_text_dict,rate_img_dict
 
 def get_based_on(game_infobox):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting Based On for the game',file_path,filename)
     
@@ -251,10 +420,19 @@ def get_based_on(game_infobox):
         based_ons = based_on_sub_div.text
     except:
         based_ons = np.NaN
-        
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return based_ons
 
 def get_firstgame(game_infobox):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting First Game for the game',file_path,filename)
     
@@ -264,10 +442,19 @@ def get_firstgame(game_infobox):
         firstgame = firstgame_sub_div.text
     except:
         firstgame = np.NaN
-        
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return firstgame
 
 def get_latest(game_infobox):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting Latest for the game',file_path,filename)
     
@@ -277,10 +464,19 @@ def get_latest(game_infobox):
         latest = latest_sub_div.text
     except:
         latest = np.NaN
-        
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return latest
 
 def get_details(game_soup):
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
 
     log.log_generate('ALL',global_log_level,'Getting all details for the game',file_path,filename)
 
@@ -362,22 +558,47 @@ def get_details(game_soup):
     except:
         latest = np.NaN
 
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
     return devs,publs,sales,size,platforms,classes,genres,release_dates,ratings,game_attr,based_on,firstgame,latest
 
 def gen_json(dict_var,file_name):
-    
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
+
 #     file_name = f'{dict_var=}'.split('=')[0]
-    # log.log_generate('ALL',global_log_level,'Generating JSON for'+str(file_name),file_path,filename)
+    log.log_generate('ALL',global_log_level,'Generating JSON for'+str(file_name),file_path,filename)
     with open(file_name+'.json', 'w') as fp:
         print(os.getcwd())
         print(file_name+'.json')
         json.dump(dict_var, fp)
+
+    exit_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+    exec_time = exit_time - entry_time
+    log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
         
 def get_json(dict_var):
-    
-    # log.log_generate('ALL',global_log_level,'Fetching JSON into dict',file_path,filename)
+
+    entry_time = get_curr_time()
+    log.log_generate('TIME',global_log_level,'Time of Entry :'+str(get_curr_time()),file_path,filename)
+
+    log.log_generate('ALL',global_log_level,'Fetching JSON into dict',file_path,filename)
     file_name = f'{dict_var=}'.split('=')[0]
-    with open(file_name+'.json') as json_file: 
+    with open(file_name+'.json') as json_file:
+
+        exit_time = get_curr_time()
+        log.log_generate('TIME',global_log_level,'Time of Exit :'+str(get_curr_time()),file_path,filename)
+
+        exec_time = exit_time - entry_time
+        log.log_generate('TIME',global_log_level,'Time of Exec :'+str(exec_time),file_path,filename)
+
         return json.load(json_file)
 
 # Base URL to which the game specific urls can be appended to get each games page
@@ -400,7 +621,17 @@ game_list_section = nin_soup.find('div',class_ = 'mw-parser-output')
 # Getting all the ul elements
 game_uls = game_list_section.find_all('ul',recursive = False)
 
-game_year,game_url = get_game_NameYearURL(game_uls[:5])
+'''
+This is just for testing
+'''
+need_limit = input('Need Limit?')
+if need_limit == 'Y':
+    limit = int(input('limit?'))
+else:
+    limit = 10
+
+
+game_year,game_url = get_game_NameYearURL(game_uls[:limit])
 
 game_dev = {}
 game_publs = {}
@@ -417,9 +648,9 @@ game_firstgame = {}
 game_latest = {}
 for game in game_url:
     print('******************')
-    log.log_generate('DEBUG',global_log_level,'************************************',file_path,filename)
+    log.log_generate('ROOT',global_log_level,'************************************',file_path,filename)
     print(game)
-    log.log_generate('DEBUG',global_log_level,'GAME :'+str(game),file_path,filename)
+    log.log_generate('ROOT',global_log_level,'GAME :'+str(game),file_path,filename)
     if game_url[game] != None and game_url[game] == game_url[game] and 'https' not in game_url[game]:
         URL_game = base_URL + game_url[game]
         game_page = get_html_content(URL_game)
@@ -429,18 +660,18 @@ for game in game_url:
         
         devs,publs,sales,size,platforms,classes,genres,release_dates,ratings,attributes,based_on,firstgame,latest = get_details(game_soup)
         
-        log.log_generate('DEBUG',global_log_level,"Devs :"+str(devs),file_path,filename)
-        log.log_generate('DEBUG',global_log_level,"Publishers :"+str(publs),file_path,filename)
-        log.log_generate('DEBUG',global_log_level,"Sales :"+str(sales),file_path,filename)
-        log.log_generate('DEBUG',global_log_level,"Size :"+str(size),file_path,filename)
-        log.log_generate('DEBUG',global_log_level,"Platforms :"+str(platforms),file_path,filename)
-        log.log_generate('DEBUG',global_log_level,"Classification(s) :"+str(classes),file_path,filename)
-        log.log_generate('DEBUG',global_log_level,"Geners :"+str(genres),file_path,filename)
-        log.log_generate('DEBUG',global_log_level,"Releases :"+str(release_dates),file_path,filename)
-        log.log_generate('DEBUG',global_log_level,"Ratings :"+str(ratings),file_path,filename)
-        log.log_generate('DEBUG',global_log_level,"Based On :"+str(based_on),file_path,filename)
-        log.log_generate('DEBUG',global_log_level,"First Game :"+str(firstgame),file_path,filename)
-        log.log_generate('DEBUG',global_log_level,"Latest :"+str(latest),file_path,filename)
+        log.log_generate('ROOT',global_log_level,"Devs :"+str(devs),file_path,filename)
+        log.log_generate('ROOT',global_log_level,"Publishers :"+str(publs),file_path,filename)
+        log.log_generate('ROOT',global_log_level,"Sales :"+str(sales),file_path,filename)
+        log.log_generate('ROOT',global_log_level,"Size :"+str(size),file_path,filename)
+        log.log_generate('ROOT',global_log_level,"Platforms :"+str(platforms),file_path,filename)
+        log.log_generate('ROOT',global_log_level,"Classification(s) :"+str(classes),file_path,filename)
+        log.log_generate('ROOT',global_log_level,"Geners :"+str(genres),file_path,filename)
+        log.log_generate('ROOT',global_log_level,"Releases :"+str(release_dates),file_path,filename)
+        log.log_generate('ROOT',global_log_level,"Ratings :"+str(ratings),file_path,filename)
+        log.log_generate('ROOT',global_log_level,"Based On :"+str(based_on),file_path,filename)
+        log.log_generate('ROOT',global_log_level,"First Game :"+str(firstgame),file_path,filename)
+        log.log_generate('ROOT',global_log_level,"Latest :"+str(latest),file_path,filename)
         print("Devs :",devs)
         print("Publishers :",publs)
         print("Sales :",sales)
@@ -498,5 +729,68 @@ gen_json(game_attr,'game_attr')
 gen_json(game_based_on,'game_based_on')
 gen_json(game_firstgame,'game_firstgame')
 gen_json(game_latest,'game_latest')
+
+# Generating the dataframe
+
+game_list = list(game_attr.keys())
+game_attr_l = list(game_attr.values())
+game_based_on_l = list(game_based_on.values())
+game_classes_l = list(game_classes.values())
+game_dev_l = list(game_dev.values())
+game_firstgame_l = list(game_firstgame.values())
+game_geners_l = list(game_geners.values())
+game_latest_l = list(game_latest.values())
+game_platforms_l = list(game_platforms.values())
+game_publs_l = list(game_publs.values())
+game_ratings_l = list(game_ratings.values())
+game_rdates_l = list(game_rdates.values())
+game_sales_l = list(game_sales.values())
+game_siz_l = list(game_size.values())
+game_url_l = list(game_url.values())
+game_year_l = list(game_year.values())
+
+columnnames = [
+    
+    'Games',
+    'Year',
+    'Attributes',
+    'Sales',
+    'Size',
+    'BasedOn',
+    'Classification',
+    'Developers',
+    'FirstGame',
+    'Geners',
+    'LatestGame',
+    'Platforms',
+    'Published',
+    'Ratings',
+    'ReleaseDates',
+    'URL'
+    
+]
+
+games_df = pd.DataFrame( data = zip(game_list,
+                                     game_attr_l,
+                                     game_based_on_l,
+                                     game_classes_l,
+                                     game_dev_l,
+                                     game_firstgame_l,
+                                    game_geners_l,
+                                    game_latest_l,
+                                    game_platforms_l,
+                                    game_publs_l,
+                                    game_ratings_l,
+                                    game_rdates_l,
+                                    game_sales_l,
+                                    game_siz_l,
+                                    game_url_l,
+                                    game_year_l),
+                         columns = columnnames
+)
+
+os.chdir("../Results/DataFrames")
+
+games_df.to_csv('NintendoGames.csv')
 
 os.chdir(script_dir)

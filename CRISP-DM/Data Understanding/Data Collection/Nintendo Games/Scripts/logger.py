@@ -6,7 +6,7 @@ def log_message(log_level,global_log_level,message):
     called_func = inspect.currentframe().f_back.f_back.f_code.co_name
     timestamp = str(datetime.datetime.now())[:-4]
     
-    if log_level == global_log_level:
+    if log_level in global_log_level:
         message = timestamp + ' [ ' + called_func + ' ] ' + log_level + ' : ' + message
     else:
         message = None
@@ -23,3 +23,5 @@ def log_generate(log_level,global_log_level,message,log_path,filename):
 
 def get_filename():
     return ('log_'+str(datetime.datetime.now())[:-4]).replace(':','').replace(' ','_')
+
+print(os.getcwd())
